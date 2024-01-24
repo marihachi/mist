@@ -2,7 +2,7 @@
 A misskey client of one file.
 
 ## Download
-Comming soon ...
+Coming soon ...
 
 ## Build
 ```sh
