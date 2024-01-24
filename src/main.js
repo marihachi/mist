@@ -5,7 +5,19 @@ import './style.css';
 let currentHost = 'misskey.systems';
 let accessToken;
 
+function renderLogin() {
+  if (accessToken != null) {
+    document.querySelector('#login-status').innerHTML = 'ログイン済み';
+  } else {
+    document.querySelector('#login-status').innerHTML = 'ログインしていません';
+  }
+  document.querySelector('#logout').disabled = (accessToken == null);
+  document.querySelector('#login-submit').disabled = (accessToken != null);
+}
+
 function setupLogin() {
+  renderLogin();
+
   document.querySelector('#login-submit').addEventListener('click', async () => {
     // make session
     const session = crypto.randomUUID();
@@ -14,8 +26,8 @@ function setupLogin() {
     // wait authorize (10 minites)
     let data;
     const startTime = Date.now();
-    while (Date.now() < startTime + 10 * 60 * 1000) {
-      await sleep(1000);
+    while (Date.now() < startTime + 5 * 60 * 1000) {
+      await sleep(2000);
       const response = await fetch(`https://${currentHost}/api/miauth/${session}/check`, { method: 'POST' });
       data = await response.json();
       if (data.ok) {
@@ -38,14 +50,28 @@ function setupLogin() {
       }
       writeCredentials(credentials);
       accessToken = data.token;
-      document.querySelector('#login-status').innerHTML = 'ログイン済み';
+      renderLogin();
+      renderPost();
     } else {
-      console.log('timeout');
+      console.error('timeout');
     }
+  });
+
+  document.querySelector('#logout').addEventListener('click', async () => {
+    writeCredentials([]);
+    accessToken = undefined;
+    renderLogin();
+    renderPost();
   });
 }
 
+function renderPost() {
+  document.querySelector('#post').hidden = (accessToken == null);
+}
+
 function setupPost() {
+  renderPost();
+
   document.querySelector('#submit').addEventListener('click', async () => {
     const response = await fetch(`https://${currentHost}/api/notes/create`, {
       method: 'POST',
@@ -67,11 +93,7 @@ function setupPost() {
 
 function setupApp() {
   accessToken = loadAccessToken(currentHost);
-  if (accessToken != null) {
-    document.querySelector('#login-status').innerHTML = 'ログイン済み';
-  } else {
-    document.querySelector('#login-status').innerHTML = 'ログインしていません';
-  }
+
   setupLogin();
   setupPost();
 }

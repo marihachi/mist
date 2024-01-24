@@ -20,7 +20,6 @@ export function writeCredentials(credentials) {
 
 export function loadAccessToken(host) {
   let credentials = readCredentials();
-  console.log(credentials);
   if (credentials != null) {
     const credential = credentials.find(x => x.host == host);
     if (credential != null) {
