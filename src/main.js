@@ -1,41 +1,9 @@
-import * as aes from './aes.js';
+import { loadAccessToken, readCredentials, writeCredentials } from './credential.js';
+import { sleep } from './util.js';
 import './style.css';
 
 let currentHost = 'misskey.systems';
 let accessToken;
-
-const CredentialsKey = 'MIST_CREDENTIALS';
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/**
- * @returns { any[] | undefined } credentials
-*/
-function readCredentials() {
-  const source = localStorage.getItem(CredentialsKey);
-  if (source != null) {
-    const json = aes.decrypt(source);
-    return JSON.parse(json);
-  }
-}
-
-function writeCredentials(credentials) {
-  const json = JSON.stringify(credentials);
-  localStorage.setItem(CredentialsKey, aes.encrypt(json));
-}
-
-function loadAccessToken(host) {
-  let credentials = readCredentials();
-  console.log(credentials);
-  if (credentials != null) {
-    const credential = credentials.find(x => x.host == host);
-    if (credential != null) {
-      return credential.accessToken;
-    }
-  }
-}
 
 function setupLogin() {
   document.querySelector('#login-submit').addEventListener('click', async () => {
@@ -90,7 +58,7 @@ function setupPost() {
       }),
     });
     const data = await response.json();
-    if (data == null) {
+    if (data.error != null) {
       return;
     }
     document.querySelector('#text').value = '';
