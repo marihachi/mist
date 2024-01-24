@@ -11,5 +11,8 @@
   "devDependencies": {
     "vite": "5.0.x",
     "vite-plugin-singlefile": "1.0.x"
+  },
+  "dependencies": {
+    "aes-js": "^3.1.2"
   }
 }

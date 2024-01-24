@@ -3,12 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mist</title>
+    <title>Mist</title>
   </head>
   <body>
     <div>
-      <h1>Hello mist!</h1>
-      <button id="counter" type="button"></button>
+      <h1>Mist</h1>
+      <div id="login">
+        <h2>ログインフォーム</h2>
+        <p id="login-status"></p>
+        <p>現在のところログインはmisskey.systemsだけです。</p>
+        <!--<input type="text" id="login-host" placeholder="URL"></input>-->
+        <button id="login-submit">ログイン</button>
+      </div>
+      <div id="post">
+        <h2>投稿フォーム</h2>
+        <textarea id="text"></textarea>
+        <button id="submit">投稿</button>
+      </div>
+      <div id="timeline"></div>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
