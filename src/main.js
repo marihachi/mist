@@ -6,18 +6,16 @@ let currentHost = 'misskey.systems';
 let accessToken;
 
 function renderLogin() {
-  if (accessToken != null) {
-    document.querySelector('#login-status').innerHTML = 'ログイン済み';
-  } else {
-    document.querySelector('#login-status').innerHTML = 'ログインしていません';
-  }
+  document.querySelector('#login-status').innerHTML = (accessToken != null) ? 'ログイン済み' : 'ログインしていません';
   document.querySelector('#logout').disabled = (accessToken == null);
   document.querySelector('#login-submit').disabled = (accessToken != null);
 }
 
-function setupLogin() {
-  renderLogin();
+function renderPost() {
+  document.querySelector('#post').hidden = (accessToken == null);
+}
 
+function setupLogin() {
   document.querySelector('#login-submit').addEventListener('click', async () => {
     // make session
     const session = crypto.randomUUID();
@@ -35,9 +33,7 @@ function setupLogin() {
       }
     }
 
-    // finish
     if (data.ok) {
-      // save credential
       const credential = {
         host: currentHost,
         accessToken: data.token
@@ -65,13 +61,7 @@ function setupLogin() {
   });
 }
 
-function renderPost() {
-  document.querySelector('#post').hidden = (accessToken == null);
-}
-
 function setupPost() {
-  renderPost();
-
   document.querySelector('#submit').addEventListener('click', async () => {
     const response = await fetch(`https://${currentHost}/api/notes/create`, {
       method: 'POST',
@@ -91,11 +81,10 @@ function setupPost() {
   });
 }
 
-function setupApp() {
-  accessToken = loadAccessToken(currentHost);
+accessToken = loadAccessToken(currentHost);
 
-  setupLogin();
-  setupPost();
-}
+renderLogin();
+renderPost();
 
-setupApp();
+setupLogin();
+setupPost();
