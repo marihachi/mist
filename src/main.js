@@ -11,5 +11,6 @@ const context = {
 
 context.accessToken = loadAccessToken(context.currentHost);
 
+// update view
 renderLogin(context);
 renderPost(context);

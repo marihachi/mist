@@ -1,3 +1,5 @@
+import { api } from './misskey.js';
+
 export function renderPost(ctx) {
   if (ctx.accessToken != null) {
     document.querySelector('#post').innerHTML = `
@@ -12,17 +14,9 @@ export function renderPost(ctx) {
 }
 
 async function onClickPost(ctx) {
-  const response = await fetch(`https://${ctx.currentHost}/api/notes/create`, {
-    method: 'POST',
-    headers: [
-      ['Content-Type', 'application/json'],
-    ],
-    body: JSON.stringify({
-      i: ctx.accessToken,
-      text: document.querySelector('#text').value,
-    }),
+  const data = await api(ctx.currentHost, ctx.accessToken, 'notes/create', {
+    text: document.querySelector('#text').value,
   });
-  const data = await response.json();
   if (data.error != null) {
     return;
   }

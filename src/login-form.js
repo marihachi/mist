@@ -1,6 +1,6 @@
 import { readCredentials, writeCredentials } from './credential.js';
+import { authorize } from './misskey.js';
 import { renderPost } from './timeline.js';
-import { sleep } from './util.js';
 
 export function renderLogin(ctx) {
   document.querySelector('#login').innerHTML = `
@@ -20,27 +20,29 @@ export function renderLogin(ctx) {
 }
 
 async function onClickLogin(ctx) {
-  // make session
-  const session = crypto.randomUUID();
-  open(`https://${ctx.currentHost}/miauth/${session}?name=Mist&permission=write:notes`);
+  // make canncellation token
+  const cancellationToken = { isCancel: false };
 
-  // wait authorize (10 minites)
-  let data;
-  const startTime = Date.now();
-  while (Date.now() < startTime + 5 * 60 * 1000) {
-    await sleep(2000);
-    const response = await fetch(`https://${ctx.currentHost}/api/miauth/${session}/check`, { method: 'POST' });
-    data = await response.json();
-    if (data.ok) {
-      break;
-    }
-  }
+  // start cancellation timer (5 minutes)
+  const timer = setTimeout(() => {
+    cancellationToken.isCancel = true;
+  }, 5 * 60 * 1000);
+
+  // start authorize
+  const data = await authorize(ctx.currentHost, 'Mist', 'write:notes', cancellationToken);
+
+  // stop cancellation timer
+  clearTimeout(timer);
 
   if (data.ok) {
+    ctx.accessToken = data.token;
+
     const credential = {
       host: ctx.currentHost,
-      accessToken: data.token
+      accessToken: data.token,
     };
+
+    // save credential
     let credentials = readCredentials();
     if (credentials != null) {
       credentials.push(credential);
@@ -48,7 +50,8 @@ async function onClickLogin(ctx) {
       credentials = [credential];
     }
     writeCredentials(credentials);
-    ctx.accessToken = data.token;
+
+    // update view
     renderLogin(ctx);
     renderPost(ctx);
   } else {
@@ -59,6 +62,8 @@ async function onClickLogin(ctx) {
 async function onClickLogout(ctx) {
   writeCredentials([]);
   ctx.accessToken = undefined;
+
+  // update view
   renderLogin(ctx);
   renderPost(ctx);
 }
