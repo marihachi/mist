@@ -2,7 +2,8 @@
 A misskey client of one file.
 
 ## Download
-Coming soon ...
+Release Page:  
+https://github.com/marihachi/mist/releases
 
 ## Build
 ```sh
