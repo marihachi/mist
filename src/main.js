@@ -5,7 +5,7 @@ import { renderPost } from './timeline.js';
 import './style.css';
 
 const context = {
-  currentHost: undefined,
+  host: undefined,
   accessToken: undefined,
   //development: 1,
 };
@@ -13,7 +13,7 @@ const context = {
 // load credential
 const credential = getCredential(context, 0);
 if (credential != null) {
-  context.currentHost = credential.host;
+  context.host = credential.host;
   context.accessToken = credential.accessToken;
 }
 

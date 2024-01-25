@@ -10,7 +10,7 @@ export function renderLogin(ctx) {
       '<button id="logout">ログアウト</button>',
     ].join('');
     document.querySelector('#logout').addEventListener('click', () => onClickLogout(ctx));
-    document.querySelector('#host-name').innerHTML = `ログイン先: ${ctx.currentHost}`;
+    document.querySelector('#host-name').innerHTML = `ログイン先: ${ctx.host}`;
   } else {
     document.querySelector('#login').innerHTML = [
       '<h2>アカウント</h2>',
@@ -46,7 +46,7 @@ async function onClickLogin(ctx) {
   clearTimeout(timer);
 
   if (data.ok) {
-    ctx.currentHost = host;
+    ctx.host = host;
     ctx.accessToken = data.token;
 
     const credential = {
@@ -66,8 +66,8 @@ async function onClickLogin(ctx) {
 }
 
 async function onClickLogout(ctx) {
-  deleteCredentialByHost(ctx, ctx.currentHost);
-  ctx.currentHost = undefined;
+  deleteCredentialByHost(ctx, ctx.host);
+  ctx.host = undefined;
   ctx.accessToken = undefined;
 
   // update view

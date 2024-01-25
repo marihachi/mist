@@ -14,7 +14,7 @@ export function renderPost(ctx) {
 }
 
 async function onClickPost(ctx) {
-  const data = await api(ctx.currentHost, 'notes/create', ctx.accessToken, {
+  const data = await api(ctx.host, 'notes/create', ctx.accessToken, {
     text: document.querySelector('#text').value,
   });
   if (data.error != null) {
