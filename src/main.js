@@ -1,15 +1,21 @@
-import { loadAccessToken } from './credential.js';
+import { getCredential } from './credential.js';
 import { renderLogin } from './login-form.js';
 import { renderPost } from './timeline.js';
 
 import './style.css';
 
 const context = {
-  currentHost: 'misskey.systems',
+  currentHost: undefined,
   accessToken: undefined,
+  //development: 1,
 };
 
-context.accessToken = loadAccessToken(context.currentHost);
+// load credential
+const credential = getCredential(context, 0);
+if (credential != null) {
+  context.currentHost = credential.host;
+  context.accessToken = credential.accessToken;
+}
 
 // update view
 renderLogin(context);

@@ -5,33 +5,70 @@ const CredentialsKey = 'MIST_CREDENTIALS';
 /**
  * @returns { any[] | undefined } credentials
 */
-export function readCredentials() {
-  const source = localStorage.getItem(CredentialsKey);
-  if (source != null) {
-    const json = decrypt(source);
-    return JSON.parse(json);
+export function readCredentials(ctx) {
+  const data = localStorage.getItem(CredentialsKey);
+  if (data != null) {
+    let result;
+    try {
+      if (ctx.development) {
+        result = JSON.parse(data);
+      } else {
+        result = JSON.parse(decrypt(data));
+      }
+    } catch {
+      console.error('Failed to read credential');
+      return;
+    }
+    return result;
   }
 }
+
 /**
  * @param { any[] } credentials
 */
-export function writeCredentials(credentials) {
+export function writeCredentials(ctx, credentials) {
   const json = JSON.stringify(credentials);
-  localStorage.setItem(CredentialsKey, encrypt(json));
+  let data;
+  if (ctx.development) {
+    data = json;
+  } else {
+    data = encrypt(json);
+  }
+  localStorage.setItem(CredentialsKey, data);
 }
 
 /**
  * @param { string } host
- * @returns { string | undefined } access token
+ * @returns { any | undefined } credential
 */
-export function loadAccessToken(host) {
-  let credentials = readCredentials();
-  if (credentials != null) {
-    const credential = credentials.find(x => x.host == host);
-    if (credential != null) {
-      return credential.accessToken;
-    }
+export function getCredential(ctx, index) {
+  let credentials = readCredentials(ctx);
+  if (credentials != null && index < credentials.length) {
+    return credentials[index];
   }
+}
+
+export function addCredential(ctx, credential) {
+  let credentials = readCredentials(ctx);
+  if (credentials != null) {
+    credentials.push(credential);
+  } else {
+    credentials = [credential];
+  }
+  writeCredentials(ctx, credentials);
+}
+
+/**
+ * @param { string } host
+ * @returns { any | undefined } credential
+*/
+export function deleteCredentialByHost(ctx, host) {
+  let credentials = readCredentials(ctx);
+  if (credentials == null) return;
+  const index = credentials.findIndex(x => x.host == host);
+  if (index == -1) return;
+  credentials.splice(index, 1);
+  writeCredentials(ctx, credentials);
 }
 
 const key = aesjs.utils.utf8.toBytes('ro3teYBfuxJuipWK3MEcaR3G6fCIqKqd');
