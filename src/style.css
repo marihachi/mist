@@ -63,3 +63,19 @@ button:focus-visible {
   margin: auto;
   width: 70%;
 }
+
+#login-host {
+  margin-right: 1em;
+}
+
+#post-container {
+  display: flex;
+  align-items: flex-end;
+}
+
+#post textarea {
+  margin-right: 1em;
+
+  height: 5rem;
+  width: 15rem;
+}

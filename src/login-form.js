@@ -1,6 +1,13 @@
 import { addCredential, deleteCredentialByHost } from './credential.js';
 import { authorize } from './misskey.js';
-import { renderPostForm, renderTimeline } from './timeline.js';
+import { setupTimeline, disposeTimeline } from './timeline.js';
+
+export function setupLogin(ctx) {
+  renderLogin(ctx);
+}
+
+export function disposeLogin(ctx) {
+}
 
 export function renderLogin(ctx) {
   if (ctx.accessToken != null) {
@@ -59,8 +66,7 @@ async function onClickLogin(ctx) {
 
     // update view
     renderLogin(ctx);
-    renderPostForm(ctx);
-    renderTimeline(ctx);
+    setupTimeline(ctx);
   } else {
     document.querySelector('#login-message').innerHTML = 'タイムアウトしました。';
   }
@@ -73,6 +79,5 @@ async function onClickLogout(ctx) {
 
   // update view
   renderLogin(ctx);
-  renderPostForm(ctx);
-  renderTimeline(ctx);
+  disposeTimeline(ctx);
 }

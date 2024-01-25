@@ -1,6 +1,6 @@
 import { getCredential } from './credential.js';
-import { renderLogin } from './login-form.js';
-import { renderPostForm, renderTimeline } from './timeline.js';
+import { setupLogin } from './login-form.js';
+import { setupTimeline } from './timeline.js';
 
 import './style.css';
 
@@ -8,6 +8,9 @@ const context = {
   host: undefined,
   accessToken: undefined,
   //development: 1,
+  timeline: {
+    cancellationToken: undefined,
+  }
 };
 
 // load credential
@@ -17,7 +20,5 @@ if (credential != null) {
   context.accessToken = credential.accessToken;
 }
 
-// update view
-renderLogin(context);
-renderPostForm(context);
-renderTimeline(context);
+setupLogin(ctx);
+setupTimeline(ctx);
