@@ -20,5 +20,5 @@ if (credential != null) {
   context.accessToken = credential.accessToken;
 }
 
-setupLogin(ctx);
-setupTimeline(ctx);
+setupLogin(context);
+setupTimeline(context);
