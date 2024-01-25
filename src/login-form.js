@@ -3,20 +3,21 @@ import { authorize } from './misskey.js';
 import { renderPost } from './timeline.js';
 
 export function renderLogin(ctx) {
-  document.querySelector('#login').innerHTML = `
-    <h2>ログインフォーム</h2>
-    <p id="login-status"></p>
-    <button id="logout">ログアウト</button>
-    <p>現在のところログイン先はmisskey.systemsだけです。</p>
-    <!--<input type="text" id="login-host" placeholder="URL"></input>-->
-    <button id="login-submit">ログイン</button>
-  `;
-  document.querySelector('#login-submit').addEventListener('click', () => onClickLogin(ctx));
-  document.querySelector('#logout').addEventListener('click', () => onClickLogout(ctx));
-
-  document.querySelector('#login-status').innerHTML = (ctx.accessToken != null) ? 'ログイン済み' : 'ログインしていません';
-  document.querySelector('#logout').disabled = (ctx.accessToken == null);
-  document.querySelector('#login-submit').disabled = (ctx.accessToken != null);
+  if (ctx.accessToken != null) {
+    document.querySelector('#login').innerHTML = [
+      '<h2>アカウント</h2>',
+      '<button id="logout">ログアウト</button>',
+    ].join('');
+    document.querySelector('#logout').addEventListener('click', () => onClickLogout(ctx));
+  } else {
+    document.querySelector('#login').innerHTML = [
+      '<h2>アカウント</h2>',
+      '<p>今のところログイン先はmisskey.systemsだけです。</p>',
+      '<input type="text" id="login-host" placeholder="ホスト名"></input>',
+      '<button id="login-submit">ログイン</button>',
+    ].join('');
+    document.querySelector('#login-submit').addEventListener('click', () => onClickLogin(ctx));
+  }
 }
 
 async function onClickLogin(ctx) {
