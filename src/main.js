@@ -1,6 +1,6 @@
 import { getCredential } from './credential.js';
 import { renderLogin } from './login-form.js';
-import { renderPost } from './timeline.js';
+import { renderPostForm, renderTimeline } from './timeline.js';
 
 import './style.css';
 
@@ -19,4 +19,5 @@ if (credential != null) {
 
 // update view
 renderLogin(context);
-renderPost(context);
+renderPostForm(context);
+renderTimeline(context);
