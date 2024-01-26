@@ -30,7 +30,7 @@ const Timeline: FC<Props> = (props) => {
         } catch {
           console.error('failed to fetch timeline.');
         }
-        await sleep(2000);
+        await sleep(1000);
       }
       //console.log('timeline stopped');
     })();
@@ -47,12 +47,12 @@ const Timeline: FC<Props> = (props) => {
         account={ props.account }
         mode={ props.mode }
       />
-      <ul>
+      <ul className='timeline-list'>
         {
           notes.map(note =>
-            <li key={ note.id } style={{ marginBottom: "0.5rem" }}>
-              <div style={{ color: '#AAA' }}>{ note.user.name } @{ note.user.username }</div>
-              <div>{ note.text }</div>
+            <li key={ note.id } className='note-block'>
+              <div className='note-header'>{ note.user.name } @{ note.user.username }</div>
+              <div className='note-body'>{ note.text }</div>
             </li>
           )
         }

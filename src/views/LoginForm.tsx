@@ -41,10 +41,12 @@ const LoginForm: FC<Props> = (props) => {
     return (
       <>
         <h2>アカウント</h2>
-        <p>ログイン先: { props.account.host }</p>
-        <button onClick={ onClickLogout }>
-          ログアウト
-        </button>
+        <div className='account-header'>
+          <p>ログイン先: { props.account.host }</p>
+          <button onClick={ onClickLogout }>
+            ログアウト
+          </button>
+        </div>
       </>
     );
   } else {
@@ -53,6 +55,7 @@ const LoginForm: FC<Props> = (props) => {
         <h2>アカウント</h2>
         <input
           type="text"
+          className='login-host'
           placeholder="ホスト名"
           value={ hostName }
           onChange={ e => setHostName(e.target.value) }
