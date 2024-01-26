@@ -3,7 +3,6 @@ import { sleep } from './util.js';
 
 export async function setupTimeline(ctx) {
   // update view
-  renderPostForm(ctx);
   renderTimeline(ctx, []);
 
   if (ctx.accessToken != null) {
@@ -46,30 +45,4 @@ export async function renderTimeline(ctx, notes) {
   } else {
     document.querySelector('#timeline').innerHTML = '';
   }
-}
-
-export function renderPostForm(ctx) {
-  // post form
-  if (ctx.accessToken != null) {
-    document.querySelector('#post').innerHTML = [
-      '<h2>タイムライン</h2>',
-      '<div id="post-container">',
-      '<textarea id="text"></textarea>',
-      '<button id="submit">投稿</button>',
-      '</div>',
-    ].join('');
-    document.querySelector('#submit').addEventListener('click', () => onClickPostButton(ctx));
-  } else {
-    document.querySelector('#post').innerHTML = '';
-  }
-}
-
-async function onClickPostButton(ctx) {
-  const data = await api(ctx.host, 'notes/create', ctx.accessToken, {
-    text: document.querySelector('#text').value,
-  });
-  if (data.error != null) {
-    return;
-  }
-  document.querySelector('#text').value = '';
 }
