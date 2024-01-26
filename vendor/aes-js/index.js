@@ -1,5 +1,5 @@
 /*! MIT License. Copyright 2015-2018 Richard Moore <me@ricmoo.com>. See LICENSE.txt. */
-/*! - We have removed the code we do not use. marihachi <marihachi0620@gmail.com> */
+/*! - We have removed the code we do not use. support ESM. marihachi <marihachi0620@gmail.com> */
 export default (function(root) {
     "use strict";
 
@@ -500,4 +500,4 @@ export default (function(root) {
     }
 
     return aesjs;
-})(this);
+})(window);
