@@ -3,11 +3,16 @@ import type { FC } from 'react';
 
 // import './LoginForm.css';
 
-const LoginForm: FC = () => {
+type Props = {
+  host: string | undefined,
+  accessToken: string | undefined,
+  mode: string,
+  updateAccount: (host: string, accessToken: string) => void,
+};
 
+const LoginForm: FC<Props> = (props) => {
   return (
     <div></div>
   );
 };
-
 export default LoginForm;

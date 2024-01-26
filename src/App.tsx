@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { FC } from 'react';
 import LoginForm from './LoginForm.js';
 import Timeline from './Timeline.js';
@@ -6,29 +6,41 @@ import PostForm from './PostForm.js';
 import { getCredential } from './credential.js';
 import './App.css';
 
-const App: FC = () => {
+const App: FC<{}> = (props) => {
+  const [host, setHost] = useState<string>();
+  const [accessToken, setAccessToken] = useState<string>();
+  const [mode, setMode] = useState<string>('development');
+  // timeline.cancellationToken
 
-  const context = {
-    host: undefined,
-    accessToken: undefined,
-    //development: 1,
-    timeline: {
-      cancellationToken: undefined,
-    }
+  const updateAccount = (host: string, accessToken: string) => {
+    setHost(host);
+    setAccessToken(accessToken);
   };
 
   // load credential
-  const credential = getCredential(context, 0);
+  const credential = getCredential(mode, 0);
   if (credential != null) {
-    context.host = credential.host;
-    context.accessToken = credential.accessToken;
+    updateAccount(credential.host, credential.accessToken);
   }
 
   return (
     <div className="container">
-      <LoginForm />
-      <PostForm />
-      <Timeline />
+      <LoginForm
+        host={host}
+        accessToken={accessToken}
+        mode={mode}
+        updateAccount={updateAccount}
+      />
+      <PostForm
+        host={host}
+        accessToken={accessToken}
+        mode={mode}
+      />
+      <Timeline
+        host={host}
+        accessToken={accessToken}
+        mode={mode}
+      />
     </div>
   );
 };

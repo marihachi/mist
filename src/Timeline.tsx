@@ -3,11 +3,15 @@ import type { FC } from 'react';
 
 // import './Timeline.css';
 
-const Timeline: FC = () => {
+type Props = {
+  host: string | undefined,
+  accessToken: string | undefined,
+  mode: string,
+};
 
+const Timeline: FC<Props> = (props) => {
   return (
     <div></div>
   );
 };
-
 export default Timeline;
