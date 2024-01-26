@@ -8,10 +8,15 @@ import './App.css';
 
 const mode = 'production';
 
+let initialized = false;
+
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
 
   useEffect(() => {
+    if (initialized) return;
+    initialized = true;
+
     // load credential
     const credential = getCredential(mode, 0);
     if (credential != null) {

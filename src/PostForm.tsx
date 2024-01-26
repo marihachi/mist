@@ -26,7 +26,7 @@ const PostForm: FC<Props> = (props) => {
   return (
     <>
       <div>
-        <textarea value={text} onChange={ e => setText(e.target.value) } />
+        <textarea value={ text } onChange={ e => setText(e.target.value) } />
         <button onClick={ onClickPost }>投稿</button>
       </div>
     </>
