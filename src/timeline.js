@@ -11,9 +11,12 @@ export async function setupTimeline(ctx) {
     // start polling
     ctx.timeline.cancellationToken = { isCancel: false };
     while (!ctx.timeline.cancellationToken.isCancel) {
+      try {
       const notes = await api(ctx.host, 'notes/hybrid-timeline', ctx.accessToken, {});
-      // update view
       await renderTimeline(ctx, notes);
+      } catch {
+        console.error('failed to fetch timeline.');
+      }
       if (ctx.timeline.cancellationToken.isCancel) break;
       await sleep(2000);
     }
