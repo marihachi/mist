@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { FC } from 'react';
-import { api } from './misskey.js';
+import { api } from '../models/misskey.js';
 
 // import './PostForm.css';
 

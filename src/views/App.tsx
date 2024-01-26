@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import LoginForm from './LoginForm.js';
 import Timeline from './Timeline.js';
-
-import { getCredential } from './credential.js';
+import { getCredential } from '../models/credential.js';
 import './App.css';
 
 const mode = 'production';
