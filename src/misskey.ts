@@ -5,7 +5,7 @@ import { sleep } from './util.js';
  * api(host, endpoint, accessToken, args): Promise<any>  
  * api(host, endpoint, args): Promise<any>  
 */
-export async function api(...x) {
+export async function api(...x: any[]) {
   let host, endpoint, accessToken, args;
   if (x.length == 4) {
     host = x[0];
@@ -31,7 +31,7 @@ export async function api(...x) {
   return response.json();
 }
 
-export async function authorize(host, appName, permissions, cancellationToken) {
+export async function authorize(host: string, appName: string, permissions: string, cancellationToken: { isCancel: boolean } | undefined) {
   cancellationToken = cancellationToken ?? { isCancel: false };
 
   // start miauth session

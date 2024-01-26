@@ -1,15 +1,23 @@
 {
-  "name": "mist",
   "private": true,
+  "name": "mist",
   "version": "1.2.1",
+  "author": "marihachi <marihachi0620@gmail.com>",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "tsc --noEmit && vite build"
   },
   "devDependencies": {
+    "@types/node": "^20.11.6",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
     "aes-js": "./vendor/aes-js",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3",
     "vite": "5.0.x",
     "vite-plugin-singlefile": "1.0.x"
   }
