@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build"
+    "build": "tsc --noEmit && vite build && mv ./dist/index.html ./dist/mist.html"
   },
   "devDependencies": {
     "@types/aes-js": "^3.1.4",
