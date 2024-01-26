@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import PostForm from './PostForm.js';
 
@@ -10,8 +10,10 @@ type Props = {
 };
 
 const Timeline: FC<Props> = (props) => {
+  const [notes, setNotes] = useState<string[]>([]);
   useEffect(() => {
     console.log('start timeline');
+    //setNotes(['aaa', 'bbb']);
     return () => {
       console.log('dispose timeline');
     };
@@ -25,6 +27,11 @@ const Timeline: FC<Props> = (props) => {
         mode={ props.mode }
       />
       <ul>
+        {
+          notes.map(note =>
+            <li>{ note }</li>
+          )
+        }
       </ul>
     </>
   );
