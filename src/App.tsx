@@ -6,39 +6,35 @@ import Timeline from './Timeline.js';
 import { getCredential } from './credential.js';
 import './App.css';
 
-const App: FC<{}> = (props) => {
-  const [host, setHost] = useState<string>();
-  const [accessToken, setAccessToken] = useState<string>();
-  const [mode, setMode] = useState<string>('production');
-  // timeline.cancellationToken
+const mode = 'production';
 
-  const updateAccount = (host: string | undefined, accessToken: string | undefined) => {
-    setHost(host);
-    setAccessToken(accessToken);
-  };
+const App: FC = () => {
+  const [account, setAccount] = useState<{ host: string, accessToken: string }>();
 
   useEffect(() => {
     // load credential
     const credential = getCredential(mode, 0);
     if (credential != null) {
-      updateAccount(credential.host, credential.accessToken);
+      setAccount({
+        host: credential.host,
+        accessToken: credential.accessToken,
+      });
     }
   }, []);
 
   return (
     <div className="container">
       <LoginForm
-        host={host}
-        accessToken={accessToken}
-        mode={mode}
-        updateAccount={updateAccount}
+        account={ account }
+        onUpdateAccount={ x => setAccount(x) }
+        mode={ mode }
       />
-      { accessToken != null &&
-      <Timeline
-        host={host}
-        accessToken={accessToken}
-        mode={mode}
-      />
+      {
+        account != null &&
+        <Timeline
+          account={ account }
+          mode={ mode }
+        />
       }
     </div>
   );

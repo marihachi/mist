@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { FC } from 'react';
 import PostForm from './PostForm.js';
 
 // import './Timeline.css';
 
 type Props = {
-  host: string | undefined,
-  accessToken: string | undefined,
+  account: { host: string, accessToken: string } | undefined,
   mode: string,
 };
 
 const Timeline: FC<Props> = (props) => {
+  useEffect(() => {
+    console.log('start timeline');
+    return () => {
+      console.log('dispose timeline');
+    };
+  }, []);
+
   return (
     <>
       <h2>タイムライン</h2>
       <PostForm
-        host={props.host}
-        accessToken={props.accessToken}
-        mode={props.mode}
+        account={ props.account }
+        mode={ props.mode }
       />
       <ul>
       </ul>

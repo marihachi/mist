@@ -1,24 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { FC } from 'react';
+import { api } from './misskey.js';
 
 // import './PostForm.css';
 
 type Props = {
-  host: string | undefined,
-  accessToken: string | undefined,
+  account: { host: string, accessToken: string } | undefined,
   mode: string,
 };
 
 const PostForm: FC<Props> = (props) => {
-  const post = () => {
-    // TODO
+  const [text, setText] = useState('');
+
+  const onClickPost = async () => {
+    if (props.account == null) return;
+    const data = await api(props.account.host, 'notes/create', props.account.accessToken, {
+      text: text,
+    });
+    if (data.error != null) {
+      return;
+    }
+    setText('');
   };
 
   return (
     <>
       <div>
-        <textarea id="text"></textarea>
-        <button onClick={ post }>投稿</button>
+        <textarea value={text} onChange={ e => setText(e.target.value) } />
+        <button onClick={ onClickPost }>投稿</button>
       </div>
     </>
   );
