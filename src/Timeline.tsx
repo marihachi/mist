@@ -1,5 +1,6 @@
 import React from 'react';
 import type { FC } from 'react';
+import PostForm from './PostForm.js';
 
 // import './Timeline.css';
 
@@ -11,7 +12,16 @@ type Props = {
 
 const Timeline: FC<Props> = (props) => {
   return (
-    <div></div>
+    <>
+      <h2>タイムライン</h2>
+      <PostForm
+        host={props.host}
+        accessToken={props.accessToken}
+        mode={props.mode}
+      />
+      <ul>
+      </ul>
+    </>
   );
 };
 export default Timeline;

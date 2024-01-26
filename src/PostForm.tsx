@@ -10,8 +10,17 @@ type Props = {
 };
 
 const PostForm: FC<Props> = (props) => {
+  const post = () => {
+    // TODO
+  };
+
   return (
-    <div></div>
+    <>
+      <div>
+        <textarea id="text"></textarea>
+        <button onClick={ post }>投稿</button>
+      </div>
+    </>
   );
 };
 export default PostForm;
