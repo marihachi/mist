@@ -11,8 +11,20 @@ type Props = {
   mode: string,
 };
 
+type Note = {
+  id: string,
+  text: string,
+  user: User,
+  renote?: Note,
+};
+
+type User = {
+  name: string,
+  username: string
+};
+
 const Timeline: FC<Props> = (props) => {
-  const [notes, setNotes] = useState<{ id: string, text: string, user: { name: string, username: string } }[]>([]);
+  const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     let isContinued = false;
@@ -48,8 +60,20 @@ const Timeline: FC<Props> = (props) => {
         {
           notes.map(note =>
             <li key={ note.id } className='note-block'>
-              <div className='note-header'>{ note.user.name } @{ note.user.username }</div>
-              <div className='note-body'>{ note.text }</div>
+              <div className='note-header'>
+                {
+                  note.renote != null
+                    ? `${note.user.name}がリノート`
+                    : `${note.user.name} @${note.user.username}`
+                }
+              </div>
+              <div className='note-body'>
+                {
+                  note.renote != null
+                    ? `@${note.renote.user.username}: ` + note.renote.text
+                    : note.text
+                }
+              </div>
             </li>
           )
         }
