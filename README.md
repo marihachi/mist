@@ -15,5 +15,11 @@ npm i
 npm run build
 ```
 
+## Author
+@marihachi
+
+## Contributors
+- @massongit - [Details](https://github.com/marihachi/mist/issues?q=author%3Amassongit)
+
 ## License
 MIT
