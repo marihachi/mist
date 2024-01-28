@@ -56,7 +56,7 @@ button {
   margin-right: 1em;
 
   height: 5rem;
-  width: 15rem;
+  flex-grow: 1;
 }
 
 .note-block {
