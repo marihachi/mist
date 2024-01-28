@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { deleteCredentialByHost } from '../models/credential.js';
 import { tryLogin } from '../models/login.js';
@@ -11,9 +11,22 @@ type Props = {
   mode: string,
 };
 
+let cancellationToken: { isCancel: boolean } | undefined;
+
 const LoginForm: FC<Props> = (props) => {
   const [message, setMessage] = useState('');
   const [hostName, setHostName] = useState('');
+  const [hasSession, setHasSession] = useState(false);
+  const [isCancelEnable, setIsCancelEnable] = useState(true);
+
+  useEffect(() => {
+    return () => {
+      // dispose login session
+      if (cancellationToken != null) {
+        cancellationToken.isCancel = true;
+      }
+    };
+  }, []);
 
   const onClickLogin = async () => {
     if (hostName.length == 0) {
@@ -21,12 +34,23 @@ const LoginForm: FC<Props> = (props) => {
       return;
     }
     setMessage('');
-    const result = await tryLogin(props.mode, hostName);
+    // make canncellation token
+    cancellationToken = { isCancel: false };
+    setHasSession(true);
+    setIsCancelEnable(true);
+    const result = await tryLogin(props.mode, hostName, cancellationToken);
     if (result.ok) {
       props.onUpdateAccount(result.account);
     } else {
       setMessage(result.message);
     }
+    setHasSession(false);
+  };
+
+  const onClickCancel = () => {
+    if (cancellationToken == null) return;
+    setIsCancelEnable(false);
+    cancellationToken.isCancel = true;
   };
 
   const onClickLogout = () => {
@@ -60,7 +84,11 @@ const LoginForm: FC<Props> = (props) => {
           value={ hostName }
           onChange={ e => setHostName(e.target.value) }
         />
-        <button onClick={ onClickLogin }>ログイン</button>
+        {
+          hasSession
+            ? <button onClick={ onClickCancel } disabled={ !isCancelEnable }>キャンセル</button>
+            : <button onClick={ onClickLogin }>ログイン</button>
+        }
         {
           message != null &&
           <p>{ message }</p>

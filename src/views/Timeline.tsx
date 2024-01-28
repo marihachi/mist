@@ -15,11 +15,10 @@ const Timeline: FC<Props> = (props) => {
   const [notes, setNotes] = useState<{ id: string, text: string, user: { name: string, username: string } }[]>([]);
 
   useEffect(() => {
-    let cancellationToken = { isCancel: false };
+    let isContinued = false;
     (async () => {
       if (props.account == null) return;
-      //console.log('start timeline');
-      while (!cancellationToken.isCancel) {
+      while (!isContinued) {
         try {
           const notes = await api(
             props.account.host,
@@ -32,11 +31,9 @@ const Timeline: FC<Props> = (props) => {
         }
         await sleep(1000);
       }
-      //console.log('timeline stopped');
     })();
     return () => {
-      //console.log('stop timeline request');
-      cancellationToken.isCancel = true;
+      isContinued = true;
     };
   }, []);
 

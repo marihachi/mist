@@ -1,10 +1,7 @@
 import { addCredential } from './credential.js';
 import { authorize } from './misskey.js';
 
-export async function tryLogin(mode: string, host: string) {
-  // make canncellation token
-  const cancellationToken = { isCancel: false };
-
+export async function tryLogin(mode: string, host: string, cancellationToken: { isCancel: boolean }) {
   // start cancellation timer (5 minutes)
   const timer = setTimeout(() => {
     cancellationToken.isCancel = true;
@@ -15,6 +12,10 @@ export async function tryLogin(mode: string, host: string) {
 
   // stop cancellation timer
   clearTimeout(timer);
+
+  if (cancellationToken.isCancel) {
+    return { ok: false as const, message: 'キャンセルされました。' };
+  }
 
   if (data.ok) {
     const account = {
