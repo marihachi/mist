@@ -60,20 +60,24 @@ const Timeline: FC<Props> = (props) => {
         {
           notes.map(note =>
             <li key={ note.id } className='note-block'>
-              <div className='note-header'>
-                {
-                  note.renote != null
-                    ? `${note.user.name}がリノート`
-                    : `${note.user.name} @${note.user.username}`
-                }
-              </div>
-              <div className='note-body'>
-                {
-                  note.renote != null
-                    ? `@${note.renote.user.username}: ` + note.renote.text
-                    : note.text
-                }
-              </div>
+              {
+                note.renote != null
+                  ? <div className='note-header' style={{ color: '#2C5' }}>
+                      { note.user.name }がリノート
+                    </div>
+                  : <div className='note-header'>
+                      {note.user.name} @{note.user.username}
+                    </div>
+              }
+              {
+                note.renote != null
+                  ? <div className='note-body'>
+                      @{ note.renote.user.username }: { note.renote.text }
+                    </div>
+                  : <div className='note-body'>
+                      { note.text }
+                    </div>
+              }
             </li>
           )
         }
