@@ -69,6 +69,10 @@ button {
   color: #22F;
 }
 
+.note-body {
+  overflow-wrap: anywhere;
+}
+
 .timeline-list {
   padding-inline-start: 0;
 }
