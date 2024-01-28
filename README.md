@@ -9,9 +9,20 @@ The mist allows access to the Misskey server with only one HTML file in the loca
 Release Page:  
 https://github.com/marihachi/mist/releases
 
-## Build
+## Development
+### Install packages
 ```sh
 npm i
+```
+
+### Run development server
+
+```sh
+npm run dev
+```
+
+### Build
+```sh
 npm run build
 ```
 
