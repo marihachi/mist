@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import { deleteCredentialByHost } from '../models/credential.js';
 import { tryLogin } from '../models/login.js';
 
 type Props = {
@@ -9,13 +8,13 @@ type Props = {
   mode: string,
 };
 
-let cancellationToken: { isCancel: boolean } | undefined;
-
 const LoginForm: FC<Props> = (props) => {
   const [message, setMessage] = useState('');
   const [hostName, setHostName] = useState('');
   const [hasSession, setHasSession] = useState(false);
-  const [isCancelEnable, setIsCancelEnable] = useState(true);
+  const [isCancelEnabled, setIsCancelEnabled] = useState(true);
+
+  let cancellationToken: { isCancel: boolean } | undefined;
 
   useEffect(() => {
     return () => {
@@ -35,7 +34,7 @@ const LoginForm: FC<Props> = (props) => {
     // make canncellation token
     cancellationToken = { isCancel: false };
     setHasSession(true);
-    setIsCancelEnable(true);
+    setIsCancelEnabled(true);
     const result = await tryLogin(props.mode, hostName, cancellationToken);
     if (result.ok) {
       props.onUpdateAccount(result.account);
@@ -47,51 +46,30 @@ const LoginForm: FC<Props> = (props) => {
 
   const onClickCancel = () => {
     if (cancellationToken == null) return;
-    setIsCancelEnable(false);
+    setIsCancelEnabled(false);
     cancellationToken.isCancel = true;
   };
 
-  const onClickLogout = () => {
-    if (props.account == null) return;
-    deleteCredentialByHost(props.mode, props.account.host);
-    props.onUpdateAccount(undefined);
-    setMessage('');
-    setHostName('');
-  };
-
-  if (props.account != null) {
-    return (
-      <>
-        <div className='account-header'>
-          <p>ログイン先: { props.account.host }</p>
-          <button onClick={ onClickLogout }>
-            ログアウト
-          </button>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <h2>アカウント</h2>
-        <input
-          type="text"
-          className='login-host'
-          placeholder="ホスト名"
-          value={ hostName }
-          onChange={ e => setHostName(e.target.value) }
-        />
-        {
-          hasSession
-            ? <button onClick={ onClickCancel } disabled={ !isCancelEnable }>キャンセル</button>
-            : <button onClick={ onClickLogin }>ログイン</button>
-        }
-        {
-          message != null &&
-          <p>{ message }</p>
-        }
-      </>
-    );
-  }
+  return (
+    <>
+      <h2>Misskeyサーバーにログイン</h2>
+      <input
+        type="text"
+        className='login-host'
+        placeholder="ホスト名"
+        value={ hostName }
+        onChange={ e => setHostName(e.target.value) }
+      />
+      {
+        hasSession
+          ? <button onClick={ onClickCancel } disabled={ !isCancelEnabled }>キャンセル</button>
+          : <button onClick={ onClickLogin }>ログイン</button>
+      }
+      {
+        message != null &&
+        <p>{ message }</p>
+      }
+    </>
+  );
 };
 export default LoginForm;

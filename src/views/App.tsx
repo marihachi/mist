@@ -4,6 +4,7 @@ import LoginForm from './LoginForm.js';
 import Timeline from './Timeline.js';
 import { getCredential } from '../models/credential.js';
 import './App.css';
+import AccountInfo from './AccountInfo.js';
 
 const mode = 'production';
 
@@ -27,29 +28,34 @@ const App: FC = () => {
   }, []);
 
   return (
-    <>
-      <div className='header-container'>
-        <header>
-          mist
-        </header>
-      </div>
-      <div className='main-container'>
-        <main>
-          <LoginForm
+    <div className='app'>
+      <header>
+        <div className='app-title'><div className='app-title-text'>mist</div></div>
+        {
+          account != null &&
+          <AccountInfo
             account={ account }
             onUpdateAccount={ x => setAccount(x) }
             mode={ mode }
           />
-          {
-            account != null &&
-            <Timeline
-              account={ account }
-              mode={ mode }
-            />
-          }
-        </main>
-      </div>
-    </>
+        }
+      </header>
+      <div className='horizontal-divider' />
+      <main>
+        {
+          account == null
+            ? <LoginForm
+                account={ account }
+                onUpdateAccount={ x => setAccount(x) }
+                mode={ mode }
+              />
+            : <Timeline
+                account={ account }
+                mode={ mode }
+              />
+        }
+      </main>
+    </div>
   );
 };
 
