@@ -8,6 +8,6 @@
     "jsx": "react",
     "strict": true,
     "skipLibCheck": true,
-    //"forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true,
   },
 }
