@@ -2,10 +2,7 @@ import aesjs from 'aes-js';
 
 const CredentialsKey = 'MIST_CREDENTIALS';
 
-/**
- * @returns { any[] | undefined } credentials
-*/
-export function readCredentials(mode: string) {
+export function readCredentials(mode: string): any[] | undefined {
   const data = localStorage.getItem(CredentialsKey);
   if (data != null) {
     let result;
@@ -23,10 +20,7 @@ export function readCredentials(mode: string) {
   }
 }
 
-/**
- * @param { any[] } credentials
-*/
-export function writeCredentials(mode: string, credentials: any) {
+export function writeCredentials(mode: string, credentials: any[]) {
   const json = JSON.stringify(credentials);
   let data;
   if (mode == 'development') {
@@ -37,11 +31,7 @@ export function writeCredentials(mode: string, credentials: any) {
   localStorage.setItem(CredentialsKey, data);
 }
 
-/**
- * @param { string } host
- * @returns { any | undefined } credential
-*/
-export function getCredential(mode: string, index: number) {
+export function getCredential(mode: string, index: number): any | undefined {
   let credentials = readCredentials(mode);
   if (credentials != null && index < credentials.length) {
     return credentials[index];
@@ -58,10 +48,6 @@ export function addCredential(mode: string, credential: any) {
   writeCredentials(mode, credentials);
 }
 
-/**
- * @param { string } host
- * @returns { any | undefined } credential
-*/
 export function deleteCredentialByHost(mode: string, host: string) {
   let credentials = readCredentials(mode);
   if (credentials == null) return;
