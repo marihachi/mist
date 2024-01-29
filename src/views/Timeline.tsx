@@ -20,7 +20,8 @@ type Note = {
 
 type User = {
   name: string,
-  username: string
+  username: string,
+  host: string | null,
 };
 
 const Timeline: FC<Props> = (props) => {
@@ -49,6 +50,33 @@ const Timeline: FC<Props> = (props) => {
     };
   }, []);
 
+  function renderNote(note: Note) {
+    if (note.renote == null) {
+      const noteHeader = (note.user.host == null)
+        ? <div className='note-header'>{ note.user.name } @{ note.user.username }</div>
+        : <div className='note-header'>{ note.user.name } @{ note.user.username }@{ note.user.host }</div>;
+      return (
+        <li key={ note.id } className='note-block'>
+          { noteHeader }
+          <div className='note-body'>
+            { note.text }
+          </div>
+        </li>
+      );
+    } else {
+      return (
+        <li key={ note.id } className='note-block'>
+          <div className='note-header' style={{ color: '#2C5' }}>
+            { note.user.name }がリノート
+          </div>
+          <div className='note-body'>
+            @{ note.renote.user.username }: { note.renote.text }
+          </div>
+        </li>
+      );
+    }
+  }
+
   return (
     <>
       <h2>タイムライン</h2>
@@ -57,30 +85,7 @@ const Timeline: FC<Props> = (props) => {
         mode={ props.mode }
       />
       <ul className='timeline-list'>
-        {
-          notes.map(note =>
-            <li key={ note.id } className='note-block'>
-              {
-                note.renote != null
-                  ? <div className='note-header' style={{ color: '#2C5' }}>
-                      { note.user.name }がリノート
-                    </div>
-                  : <div className='note-header'>
-                      {note.user.name} @{note.user.username}
-                    </div>
-              }
-              {
-                note.renote != null
-                  ? <div className='note-body'>
-                      @{ note.renote.user.username }: { note.renote.text }
-                    </div>
-                  : <div className='note-body'>
-                      { note.text }
-                    </div>
-              }
-            </li>
-          )
-        }
+        { notes.map(note => renderNote(note)) }
       </ul>
     </>
   );
