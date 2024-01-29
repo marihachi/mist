@@ -11,7 +11,7 @@ Release Page:
 https://github.com/marihachi/mist/releases
 
 ## Development
-### Install packages
+### Install dependencies
 ```sh
 npm i
 ```
@@ -22,7 +22,7 @@ npm i
 npm run dev
 ```
 
-### Build
+### Build distribution
 ```sh
 npm run build
 ```
