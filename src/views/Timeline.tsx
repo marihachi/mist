@@ -26,10 +26,10 @@ const Timeline: FC<Props> = (props) => {
   const [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
-    let isContinued = false;
+    let pollingContinued = true;
     (async () => {
       if (props.account == null) return;
-      while (!isContinued) {
+      while (pollingContinued) {
         try {
           const notes = await api(
             props.account.host,
@@ -44,7 +44,7 @@ const Timeline: FC<Props> = (props) => {
       }
     })();
     return () => {
-      isContinued = true;
+      pollingContinued = false;
     };
   }, []);
 
