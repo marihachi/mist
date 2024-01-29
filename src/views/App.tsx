@@ -27,22 +27,29 @@ const App: FC = () => {
   }, []);
 
   return (
-    <div className='app-container'>
-      <div className='container'>
-        <LoginForm
-          account={ account }
-          onUpdateAccount={ x => setAccount(x) }
-          mode={ mode }
-        />
-        {
-          account != null &&
-          <Timeline
+    <>
+      <div className='header-container'>
+        <header>
+          mist
+        </header>
+      </div>
+      <div className='main-container'>
+        <main>
+          <LoginForm
             account={ account }
+            onUpdateAccount={ x => setAccount(x) }
             mode={ mode }
           />
-        }
+          {
+            account != null &&
+            <Timeline
+              account={ account }
+              mode={ mode }
+            />
+          }
+        </main>
       </div>
-    </div>
+    </>
   );
 };
 

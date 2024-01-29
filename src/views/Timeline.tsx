@@ -4,8 +4,6 @@ import PostForm from './PostForm.js';
 import { api } from '../models/misskey.js';
 import { sleep } from '../models/util.js';
 
-// import './Timeline.css';
-
 type Props = {
   account: { host: string, accessToken: string } | undefined,
   mode: string,
@@ -52,40 +50,46 @@ const Timeline: FC<Props> = (props) => {
 
   function renderNote(note: Note) {
     if (note.renote == null) {
-      const noteHeader = (note.user.host == null)
-        ? <div className='note-header'>{ note.user.name } @{ note.user.username }</div>
-        : <div className='note-header'>{ note.user.name } @{ note.user.username }@{ note.user.host }</div>;
       return (
-        <li key={ note.id } className='note-block'>
-          { noteHeader }
+        <>
+          {
+            note.user.host == null
+              ? <div className='note-header'>{ note.user.name } @{ note.user.username }</div>
+              : <div className='note-header'>{ note.user.name } @{ note.user.username }@{ note.user.host }</div>
+          }
           <div className='note-body'>
             { note.text }
           </div>
-        </li>
+        </>
       );
     } else {
       return (
-        <li key={ note.id } className='note-block'>
+        <>
           <div className='note-header' style={{ color: '#2C5' }}>
             { note.user.name }がリノート
           </div>
           <div className='note-body'>
             @{ note.renote.user.username }: { note.renote.text }
           </div>
-        </li>
+        </>
       );
     }
   }
 
   return (
     <>
-      <h2>タイムライン</h2>
       <PostForm
         account={ props.account }
         mode={ props.mode }
       />
       <ul className='timeline-list'>
-        { notes.map(note => renderNote(note)) }
+        {
+          notes.map(note =>
+            <li key={ note.id } className='note-block'>
+              { renderNote(note) }
+            </li>
+          )
+        }
       </ul>
     </>
   );

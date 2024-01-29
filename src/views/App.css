@@ -1,3 +1,17 @@
+* {
+  box-sizing: border-box;
+  font-size: 100%;
+  font-family: inherit;
+}
+
+input, select, textarea, button {
+  box-sizing: border-box;
+}
+
+textarea {
+  display: block;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -15,27 +29,24 @@ body {
   margin: 0;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.header-container, .main-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-button {
-  padding: 0.5rem 1rem;
-}
-
-.app-container {
-  margin: auto;
-  min-width: 320px;
+header, main {
+  margin: 1rem 1.5rem;
   max-width: 800px;
+  width: 100%;
 }
 
-.container {
-  margin: 2rem;
+.header-container {
+  border-bottom: 1px solid #333;
 }
 
 .login-host {
-  margin-right: 1em;
+  margin-right: 1rem;
 }
 
 .account-header {
@@ -44,19 +55,35 @@ button {
 }
 
 .account-header > * {
-  margin: 10px;
+  margin: 0 1rem 1rem 0;
 }
 
 .post-container {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+}
+
+.post-textarea-outer {
+  margin-bottom: 12px;
+  border: 1px solid #666;
+  border-radius: 3px;
 }
 
 .post-textarea {
-  margin-right: 1em;
-
+  margin: 0;
+  padding: 0;
+  width: 100%;
   height: 5rem;
-  flex-grow: 1;
+  min-height: 1rem;
+  border: 0;
+  background-color: transparent;
+  resize: vertical;
+}
+
+.post-button {
+  width: 6rem;
+  height: 2.5rem;
+  align-self: flex-end;
 }
 
 .note-block {

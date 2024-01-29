@@ -3,8 +3,6 @@ import type { FC } from 'react';
 import { deleteCredentialByHost } from '../models/credential.js';
 import { tryLogin } from '../models/login.js';
 
-// import './LoginForm.css';
-
 type Props = {
   account: { host: string, accessToken: string } | undefined,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
@@ -64,7 +62,6 @@ const LoginForm: FC<Props> = (props) => {
   if (props.account != null) {
     return (
       <>
-        <h2>アカウント</h2>
         <div className='account-header'>
           <p>ログイン先: { props.account.host }</p>
           <button onClick={ onClickLogout }>
