@@ -1,6 +1,5 @@
 import React from 'react';
 import type { FC } from 'react';
-import { api } from '../../models/misskey.js';
 import PostForm from './PostForm.js';
 import Timeline from './Timeline.js';
 

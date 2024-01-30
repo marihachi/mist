@@ -5,6 +5,7 @@ import { deleteCredentialByHost } from '../models/credential.js';
 type Props = {
   account: { host: string, accessToken: string } | undefined,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
+  mode: string,
 };
 
 const AccountInfo: FC<Props> = (props) => {

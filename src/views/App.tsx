@@ -26,6 +26,9 @@ const App: FC = () => {
         host: credential.host,
         accessToken: credential.accessToken,
       });
+      setPageName('timeline');
+    } else {
+      setPageName('login');
     }
   }, []);
 
@@ -37,7 +40,13 @@ const App: FC = () => {
           account != null &&
           <AccountInfo
             account={ account }
-            onUpdateAccount={ x => setAccount(x) }
+            onUpdateAccount={
+              x => {
+                setAccount(x);
+                setPageName('login');
+              }
+            }
+            mode={ mode }
           />
         }
       </header>
@@ -46,7 +55,12 @@ const App: FC = () => {
         {
           pageName == 'login' &&
           <LoginPage
-            onUpdateAccount={ x => setAccount(x) }
+            onUpdateAccount={
+              x => {
+                setAccount(x);
+                setPageName('timeline');
+              }
+            }
             mode={ mode }
           />
         }
