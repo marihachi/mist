@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { getCredential } from '../models/credential.js';
+import Menu from './Menu.js';
 import AccountInfo from './AccountInfo.js';
 import LoginPage from './login-page/LoginPage.js';
 import TimelinePage from './timeline-page/TimelinePage.js';
@@ -13,7 +14,7 @@ let initialized = false;
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
-  const [pageSet, setPageSet] = useState<string[]>();
+  const [pageSet, setPageSet] = useState<string[]>(['setting']);
   const [pageName, setPageName] = useState<string>();
 
   function updateHandler(newAccount: any) {
