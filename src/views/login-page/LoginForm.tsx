@@ -7,13 +7,13 @@ type Props = {
   mode: string,
 };
 
+let cancellationToken: { isCancel: boolean } | undefined;
+
 const LoginForm: FC<Props> = (props) => {
   const [message, setMessage] = useState('');
   const [hostName, setHostName] = useState('');
   const [hasSession, setHasSession] = useState(false);
   const [isCancelEnabled, setIsCancelEnabled] = useState(true);
-
-  let cancellationToken: { isCancel: boolean } | undefined;
 
   useEffect(() => {
     return () => {
