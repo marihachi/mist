@@ -18,19 +18,19 @@ const Menu: FC<Props> = (props) => {
         {
           props.pageSet.indexOf('timeline1') != -1 &&
           <div className='menu-button'>
-            ホーム
+            タイムライン(ホーム)
           </div>
         }
         {
           props.pageSet.indexOf('timeline2') != -1 &&
           <div className='menu-button'>
-            ローカル
+            タイムライン(ローカル)
           </div>
         }
         {
           props.pageSet.indexOf('timeline3') != -1 &&
           <div className='menu-button'>
-            ソーシャル
+            タイムライン(ソーシャル)
           </div>
         }
         {
