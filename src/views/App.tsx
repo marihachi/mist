@@ -13,7 +13,25 @@ let initialized = false;
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
+  const [pageSet, setPageSet] = useState<string[]>();
   const [pageName, setPageName] = useState<string>();
+
+  function updateHandler(newAccount: any) {
+    // update account
+    setAccount(newAccount);
+
+    // update page set
+    let newPageSet;
+    if (newAccount == null) {
+      newPageSet = ['login', 'setting'];
+    } else {
+      newPageSet = ['timeline1', 'timeline2', 'timeline3', 'setting'];
+    }
+    setPageSet(newPageSet);
+
+    // update current page
+    setPageName(newPageSet[0]);
+  }
 
   useEffect(() => {
     if (initialized) return;
@@ -22,13 +40,13 @@ const App: FC = () => {
     // load credential
     const credential = getCredential(mode, 0);
     if (credential != null) {
-      setAccount({
+      const newAccount = {
         host: credential.host,
         accessToken: credential.accessToken,
-      });
-      setPageName('timeline');
+      };
+      updateHandler(newAccount);
     } else {
-      setPageName('login');
+      updateHandler(undefined);
     }
   }, []);
 
@@ -40,12 +58,7 @@ const App: FC = () => {
           account != null &&
           <AccountInfo
             account={ account }
-            onUpdateAccount={
-              x => {
-                setAccount(x);
-                setPageName('login');
-              }
-            }
+            onUpdateAccount={ x => updateHandler(x) }
             mode={ mode }
           />
         }
@@ -55,19 +68,29 @@ const App: FC = () => {
         {
           pageName == 'login' &&
           <LoginPage
-            onUpdateAccount={
-              x => {
-                setAccount(x);
-                setPageName('timeline');
-              }
-            }
+            onUpdateAccount={ x => updateHandler(x) }
             mode={ mode }
           />
         }
         {
-          pageName == 'timeline' &&
+          pageName == 'timeline1' &&
           <TimelinePage
             account={ account }
+            timelineKind='home'
+          />
+        }
+        {
+          pageName == 'timeline2' &&
+          <TimelinePage
+            account={ account }
+            timelineKind='local'
+          />
+        }
+        {
+          pageName == 'timeline3' &&
+          <TimelinePage
+            account={ account }
+            timelineKind='social'
           />
         }
         {

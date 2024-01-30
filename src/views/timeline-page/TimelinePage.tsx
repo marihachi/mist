@@ -5,6 +5,7 @@ import Timeline from './Timeline.js';
 
 type Props = {
   account: { host: string, accessToken: string } | undefined,
+  timelineKind: string,
 };
 
 const TimelinePage: FC<Props> = (props) => {
@@ -15,6 +16,7 @@ const TimelinePage: FC<Props> = (props) => {
       />
       <Timeline
         account={ props.account }
+        timelineKind={ props.timelineKind }
       />
     </>
   );

@@ -5,6 +5,7 @@ import { sleep } from '../../models/util.js';
 
 type Props = {
   account: { host: string, accessToken: string } | undefined,
+  timelineKind: string,
 };
 
 type Note = {
@@ -25,13 +26,33 @@ const Timeline: FC<Props> = (props) => {
 
   useEffect(() => {
     let pollingContinued = true;
+
+    let endpoint;
+    switch (props.timelineKind) {
+      case 'home':
+        endpoint = 'notes/timeline';
+        break;
+
+      case 'local':
+        endpoint = 'notes/local-timeline';
+        break;
+
+      case 'social':
+        endpoint = 'notes/hybrid-timeline';
+        break;
+
+      default:
+        console.error('invalid timeline kind.');
+        return;
+    }
+
     (async () => {
       if (props.account == null) return;
       while (pollingContinued) {
         try {
           const notes = await api(
             props.account.host,
-            'notes/hybrid-timeline',
+            endpoint,
             props.account.accessToken,
             { limit: 20 });
           setNotes(notes);
