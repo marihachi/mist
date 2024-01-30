@@ -6,6 +6,7 @@ import Menu from './Menu.js';
 import AccountInfo from './AccountInfo.js';
 import LoginPage from './login-page/LoginPage.js';
 import TimelinePage from './timeline-page/TimelinePage.js';
+import NotificationPage from './notification-page/NotificationPage.js';
 import SettingPage from './setting-page/SettingPage.js';
 
 /*
@@ -35,7 +36,7 @@ let initialized = false;
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
   const [pageSet, setPageSet] = useState<string[]>(['setting']);
-  const [pageName, setPageName] = useState<string>();
+  const [activePage, setActivePage] = useState<string>();
 
   function updateHandler(newAccount: any) {
     // update account
@@ -46,12 +47,12 @@ const App: FC = () => {
     if (newAccount == null) {
       newPageSet = ['login', 'setting'];
     } else {
-      newPageSet = ['timeline1', 'timeline2', 'timeline3', 'setting'];
+      newPageSet = ['home-timeline', 'local-timeline', 'social-timeline', 'notification', 'setting'];
     }
     setPageSet(newPageSet);
 
     // update current page
-    setPageName(newPageSet[0]);
+    setActivePage(newPageSet[0]);
   }
 
   useEffect(() => {
@@ -71,12 +72,54 @@ const App: FC = () => {
     }
   }, []);
 
+  const pageTable = new Map([
+    [
+      'login',
+      <LoginPage
+        onUpdateAccount={ x => updateHandler(x) }
+        mode={ mode }
+      />
+    ],
+    [
+      'home-timeline',
+      <TimelinePage
+        account={ account }
+        timelineKind='home'
+      />
+    ],
+    [
+      'local-timeline',
+      <TimelinePage
+        account={ account }
+        timelineKind='local'
+      />
+    ],
+    [
+      'social-timeline',
+      <TimelinePage
+        account={ account }
+        timelineKind='social'
+      />
+    ],
+    [
+      'notification',
+      <NotificationPage
+        account={ account }
+      />
+    ],
+    [
+      'setting',
+      <SettingPage />
+    ],
+  ]);
+
   return (
     <div className='app'>
       <header>
         <div className='app-title'><div className='app-title-text'>mist</div></div>
         <Menu
           pageSet={ pageSet }
+          activePage={ activePage }
         />
         {
           account != null &&
@@ -90,36 +133,8 @@ const App: FC = () => {
       <div className='horizontal-divider' />
       <main>
         {
-          pageName == 'login' &&
-          <LoginPage
-            onUpdateAccount={ x => updateHandler(x) }
-            mode={ mode }
-          />
-        }
-        {
-          pageName == 'timeline1' &&
-          <TimelinePage
-            account={ account }
-            timelineKind='home'
-          />
-        }
-        {
-          pageName == 'timeline2' &&
-          <TimelinePage
-            account={ account }
-            timelineKind='local'
-          />
-        }
-        {
-          pageName == 'timeline3' &&
-          <TimelinePage
-            account={ account }
-            timelineKind='social'
-          />
-        }
-        {
-          pageName == 'setting' &&
-          <SettingPage />
+          activePage != null &&
+          pageTable.get(activePage)
         }
       </main>
     </div>

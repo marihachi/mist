@@ -16,21 +16,18 @@ const AccountInfo: FC<Props> = (props) => {
   };
 
   if (props.account == null) {
-    return (
-      <>
-      </>
-    );
+    return (<></>);
   }
 
   return (
-    <>
+    <div className='account-info'>
       <div className='server-name-label'>
         ログイン先: { props.account.host }
       </div>
       <button onClick={ onClickLogout }>
         ログアウト
       </button>
-    </>
+    </div>
   );
 };
 export default AccountInfo;

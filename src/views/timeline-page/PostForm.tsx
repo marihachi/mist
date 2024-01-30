@@ -22,7 +22,7 @@ const PostForm: FC<Props> = (props) => {
 
   return (
     <>
-      <div className='post-container'>
+      <div className='post-form'>
         <div className='post-textarea-outer'>
           <textarea className='post-textarea' value={ text } onChange={ e => setText(e.target.value) } />
         </div>

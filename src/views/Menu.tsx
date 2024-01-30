@@ -3,41 +3,30 @@ import type { FC } from 'react';
 
 type Props = {
   pageSet: string[],
+  activePage: string | undefined,
 };
+
+const buttonNameTable = new Map<string, string>([
+  ['login', 'ログイン'],
+  ['home-timeline', 'ホーム'],
+  ['local-timeline', 'ローカル'],
+  ['social-timeline', 'ソーシャル'],
+  ['notification', '通知'],
+  ['setting', '設定'],
+]);
 
 const Menu: FC<Props> = (props) => {
   return (
     <>
       <div className='menu'>
         {
-          props.pageSet.indexOf('login') != -1 &&
-          <div className='menu-button'>
-            ログイン
-          </div>
-        }
-        {
-          props.pageSet.indexOf('timeline1') != -1 &&
-          <div className='menu-button'>
-            タイムライン(ホーム)
-          </div>
-        }
-        {
-          props.pageSet.indexOf('timeline2') != -1 &&
-          <div className='menu-button'>
-            タイムライン(ローカル)
-          </div>
-        }
-        {
-          props.pageSet.indexOf('timeline3') != -1 &&
-          <div className='menu-button'>
-            タイムライン(ソーシャル)
-          </div>
-        }
-        {
-          props.pageSet.indexOf('setting') != -1 &&
-          <div className='menu-button'>
-            設定
-          </div>
+          props.pageSet.map(page =>
+            <div
+              className={ props.activePage == page ? 'menu-button active' : 'menu-button' }
+            >
+              { buttonNameTable.get(page) ?? '' }
+            </div>
+          )
         }
       </div>
     </>

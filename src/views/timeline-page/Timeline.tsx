@@ -100,7 +100,7 @@ const Timeline: FC<Props> = (props) => {
       <ul className='timeline-list'>
         {
           notes.map(note =>
-            <li key={ note.id } className={ 'note-block ' + (note.renote != null ? 'renote' : '') }>
+            <li key={ note.id } className={ note.renote != null ? 'note-block renote' : 'note-block' }>
               { renderNote(note) }
             </li>
           )
