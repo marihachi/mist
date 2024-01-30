@@ -84,7 +84,7 @@ const Timeline: FC<Props> = (props) => {
     } else {
       return (
         <>
-          <div className='note-header' style={{ color: '#2C5' }}>
+          <div className='note-header'>
             { note.user.name }がリノート
           </div>
           <div className='note-body'>
@@ -100,7 +100,7 @@ const Timeline: FC<Props> = (props) => {
       <ul className='timeline-list'>
         {
           notes.map(note =>
-            <li key={ note.id } className='note-block'>
+            <li key={ note.id } className={ 'note-block ' + (note.renote != null ? 'renote' : '') }>
               { renderNote(note) }
             </li>
           )

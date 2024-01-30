@@ -8,6 +8,26 @@ import LoginPage from './login-page/LoginPage.js';
 import TimelinePage from './timeline-page/TimelinePage.js';
 import SettingPage from './setting-page/SettingPage.js';
 
+/*
+  dark
+  --bg-color: #222;
+  --text-color: #f8f8f8;
+  --main-color: #2bb;
+  --accent-color: #9c4;
+
+  light
+  --bg-color: #f8f8f8;
+  --text-color: #222;
+  --main-color: #0bb;
+  --accent-color: #fb1;
+
+  legacy
+  --bg-color: white;
+  --text-color: black;
+  --main-color: green;
+  --accent-color: magenta;
+*/
+
 const mode = 'production';
 
 let initialized = false;

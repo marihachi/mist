@@ -13,6 +13,11 @@ textarea {
 }
 
 :root {
+  --bg-color: white;
+  --fg-color: black;
+  --main-color: green;
+  --accent-color: magenta;
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -22,7 +27,8 @@ textarea {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #EEE;
+  background-color: var(--bg-color);
+  color: var(--fg-color);
 }
 
 body {
@@ -72,7 +78,7 @@ header {
 .horizontal-divider {
   width: 100%;
   height: 1px;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--fg-color);
 }
 
 .login-host {
@@ -95,7 +101,7 @@ header {
 
 .post-textarea-outer {
   margin-bottom: 12px;
-  border: 1px solid #666;
+  border: 1px solid var(--fg-color);
   border-radius: 3px;
 }
 
@@ -123,7 +129,11 @@ header {
 }
 
 .note-header {
-  color: #22F;
+  color: var(--main-color);
+}
+
+.renote .note-header {
+  color: var(--accent-color);
 }
 
 .note-body {
