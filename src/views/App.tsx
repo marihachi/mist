@@ -54,6 +54,9 @@ const App: FC = () => {
     <div className='app'>
       <header>
         <div className='app-title'><div className='app-title-text'>mist</div></div>
+        <Menu
+          pageSet={ pageSet }
+        />
         {
           account != null &&
           <AccountInfo
