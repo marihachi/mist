@@ -56,6 +56,15 @@ header {
   align-items: center;
 }
 
+.menu {
+  display: flex;
+  margin: 0 1rem;
+}
+
+.menu-button:not(:last-child) {
+  margin-right: 1rem;
+}
+
 .server-name-label {
 
 }
