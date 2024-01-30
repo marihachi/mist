@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import type { FC } from 'react';
-import { api } from '../models/misskey.js';
+import { api } from '../../models/misskey.js';
 
 type Props = {
   account: { host: string, accessToken: string } | undefined,
-  mode: string,
 };
 
 const PostForm: FC<Props> = (props) => {

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import { tryLogin } from '../models/login.js';
+import { tryLogin } from '../../models/login.js';
 
 type Props = {
-  account: { host: string, accessToken: string } | undefined,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
   mode: string,
 };

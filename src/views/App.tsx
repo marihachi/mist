@@ -1,10 +1,11 @@
+import './App.css';
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import LoginForm from './LoginForm.js';
-import Timeline from './Timeline.js';
 import { getCredential } from '../models/credential.js';
-import './App.css';
 import AccountInfo from './AccountInfo.js';
+import LoginPage from './login-page/LoginPage.js';
+import TimelinePage from './timeline-page/TimelinePage.js';
+import SettingPage from './setting-page/SettingPage.js';
 
 const mode = 'production';
 
@@ -12,6 +13,7 @@ let initialized = false;
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
+  const [pageName, setPageName] = useState<string>();
 
   useEffect(() => {
     if (initialized) return;
@@ -36,23 +38,27 @@ const App: FC = () => {
           <AccountInfo
             account={ account }
             onUpdateAccount={ x => setAccount(x) }
-            mode={ mode }
           />
         }
       </header>
       <div className='horizontal-divider' />
       <main>
         {
-          account == null
-            ? <LoginForm
-                account={ account }
-                onUpdateAccount={ x => setAccount(x) }
-                mode={ mode }
-              />
-            : <Timeline
-                account={ account }
-                mode={ mode }
-              />
+          pageName == 'login' &&
+          <LoginPage
+            onUpdateAccount={ x => setAccount(x) }
+            mode={ mode }
+          />
+        }
+        {
+          pageName == 'timeline' &&
+          <TimelinePage
+            account={ account }
+          />
+        }
+        {
+          pageName == 'setting' &&
+          <SettingPage />
         }
       </main>
     </div>

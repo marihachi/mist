@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
-import PostForm from './PostForm.js';
-import { api } from '../models/misskey.js';
-import { sleep } from '../models/util.js';
+import { api } from '../../models/misskey.js';
+import { sleep } from '../../models/util.js';
 
 type Props = {
   account: { host: string, accessToken: string } | undefined,
-  mode: string,
 };
 
 type Note = {
@@ -78,10 +76,6 @@ const Timeline: FC<Props> = (props) => {
 
   return (
     <>
-      <PostForm
-        account={ props.account }
-        mode={ props.mode }
-      />
       <ul className='timeline-list'>
         {
           notes.map(note =>

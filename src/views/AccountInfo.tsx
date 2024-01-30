@@ -5,7 +5,6 @@ import { deleteCredentialByHost } from '../models/credential.js';
 type Props = {
   account: { host: string, accessToken: string } | undefined,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
-  mode: string,
 };
 
 const AccountInfo: FC<Props> = (props) => {
@@ -24,7 +23,9 @@ const AccountInfo: FC<Props> = (props) => {
 
   return (
     <>
-      <div className='server-name-label'>ログイン先: { props.account.host }</div>
+      <div className='server-name-label'>
+        ログイン先: { props.account.host }
+      </div>
       <button onClick={ onClickLogout }>
         ログアウト
       </button>
