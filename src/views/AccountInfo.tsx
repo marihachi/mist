@@ -1,8 +1,10 @@
 import React from 'react';
 import type { FC } from 'react';
 import { deleteCredentialByHost } from '../models/credential.js';
+import type { I18n } from '../models/i18n.js';
 
 type Props = {
+  i18n: I18n,
   account: { host: string, accessToken: string } | undefined,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
   mode: string,

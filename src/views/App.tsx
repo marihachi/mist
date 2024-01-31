@@ -34,7 +34,7 @@ import SettingPage from './setting-page/SettingPage.js';
 const mode = 'production';
 
 let initialized = false;
-let i18n;
+let i18n: I18n | undefined;
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();

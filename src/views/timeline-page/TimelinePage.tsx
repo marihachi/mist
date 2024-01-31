@@ -14,6 +14,7 @@ const TimelinePage: FC<Props> = (props) => {
   return (
     <>
       <PostForm
+        i18n={ props.i18n }
         account={ props.account }
       />
       <Timeline
