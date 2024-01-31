@@ -143,6 +143,7 @@ const App: FC = () => {
             {
               account != null &&
               <AccountInfo
+                i18n={ i18n }
                 account={ account }
                 onUpdateAccount={ x => updateHandler(x) }
                 mode={ mode }
