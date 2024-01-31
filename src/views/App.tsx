@@ -2,6 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { getCredential } from '../models/credential.js';
+import { I18n } from '../models/i18n.js';
 import Menu from './Menu.js';
 import AccountInfo from './AccountInfo.js';
 import LoginPage from './login-page/LoginPage.js';
@@ -32,6 +33,7 @@ import SettingPage from './setting-page/SettingPage.js';
 const mode = 'production';
 
 let initialized = false;
+const i18n = new I18n('ja');
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
@@ -118,6 +120,7 @@ const App: FC = () => {
       <header>
         <div className='app-title'><div className='app-title-text'>mist</div></div>
         <Menu
+          i18n={ i18n }
           pageSet={ pageSet }
           activePage={ activePage }
         />

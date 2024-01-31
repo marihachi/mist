@@ -1,18 +1,21 @@
 import React from 'react';
 import type { FC } from 'react';
+import type { I18n } from '../models/i18n.js';
 
 type Props = {
+  i18n: I18n,
   pageSet: string[],
   activePage: string | undefined,
 };
 
+// ページ名とi18nキー
 const buttonNameTable = new Map<string, string>([
-  ['login', 'ログイン'],
-  ['home-timeline', 'ホーム'],
-  ['local-timeline', 'ローカル'],
-  ['social-timeline', 'ソーシャル'],
-  ['notification', '通知'],
-  ['setting', '設定'],
+  ['login', 'login'],
+  ['home-timeline', 'home'],
+  ['local-timeline', 'local'],
+  ['social-timeline', 'social'],
+  ['notification', 'notification'],
+  ['setting', 'setting'],
 ]);
 
 const Menu: FC<Props> = (props) => {
@@ -24,7 +27,7 @@ const Menu: FC<Props> = (props) => {
             <div
               className={ props.activePage == page ? 'menu-button active' : 'menu-button' }
             >
-              { buttonNameTable.get(page) ?? '' }
+              { props.i18n.get(buttonNameTable.get(page) ?? '') }
             </div>
           )
         }

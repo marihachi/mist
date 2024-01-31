@@ -2,11 +2,7 @@ type Lang = Map<string, string>;
 
 const langs: Map<string, Lang> = new Map ();
 
-export function i18n(lang: string): I18n {
-  return new I18n(lang);
-}
-
-class I18n {
+export class I18n {
   lang: Lang | undefined;
 
   constructor(lang: string) {
