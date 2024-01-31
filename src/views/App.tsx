@@ -147,6 +147,7 @@ const App: FC = () => {
               i18n={ i18n }
               pageSet={ pageSet }
               activePage={ activePage }
+              onChangeActivePage={ (page) => setActivePage(page) }
             />
             {
               account != null &&
