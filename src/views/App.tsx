@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { getCredential } from '../models/credential.js';
 import { I18n } from '../models/i18n.js';
-import { readLocale } from '../models/settings.js';
+import { readLocale } from '../models/locale.js';
+import { ThemeConfig, ThemeParams, readTheme, themePresets } from '../models/theme.js';
 import Menu from './Menu.js';
 import AccountInfo from './AccountInfo.js';
 import LoginPage from './login-page/LoginPage.js';
@@ -11,36 +12,36 @@ import TimelinePage from './timeline-page/TimelinePage.js';
 import NotificationPage from './notification-page/NotificationPage.js';
 import SettingPage from './setting-page/SettingPage.js';
 
-/*
-  dark
-  --bg-color: #222;
-  --fg-color: #f8f8f8;
-  --main-color: #2bb;
-  --accent-color: #9c4;
-
-  light
-  --bg-color: #f8f8f8;
-  --fg-color: #222;
-  --main-color: #0bb;
-  --accent-color: #fb1;
-
-  legacy
-  --bg-color: white;
-  --fg-color: black;
-  --main-color: green;
-  --accent-color: magenta;
-*/
-
 const mode = 'production';
 
 let initialized = false;
 let i18n = new I18n('en');
+
+export function makeThemeStyle(config: ThemeConfig): string | undefined {
+  let theme: ThemeParams;
+  if (config.kind == 'preset') {
+    const t = themePresets.find(x => x.id == config.id);
+    if (t == null) return undefined;
+    theme = t;
+  } else {
+    theme = config;
+  }
+  return `
+    :root {
+      --bg-color: ${ theme.bg };
+      --fg-color: ${ theme.fg };
+      --main-color: ${ theme.main };
+      --accent-color: ${ theme.accent };
+    }
+  `;
+}
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
   const [pageSet, setPageSet] = useState<string[]>(['setting']);
   const [activePage, setActivePage] = useState<string>();
   const [isReady, setIsReady] = useState<boolean>(false);
+  const [theme, setTheme] = useState<ThemeConfig>({ kind: 'preset', id: 'light' });
 
   function updateHandler(newAccount: any) {
     // update account
@@ -69,6 +70,12 @@ const App: FC = () => {
       i18n = new I18n(locale);
     }
 
+    // load theme
+    const theme = readTheme();
+    if (theme != null) {
+      setTheme(theme);
+    }
+
     // load credential
     const credential = getCredential(mode, 0);
     if (credential != null) {
@@ -80,6 +87,7 @@ const App: FC = () => {
     } else {
       updateHandler(undefined);
     }
+
     setIsReady(true);
   }, []);
 
@@ -129,10 +137,11 @@ const App: FC = () => {
   ]);
 
   return (
-    <div className='app'>
+    <>
+      <style>{ makeThemeStyle(theme) }</style>
       {
         isReady &&
-        <>
+        <div className='app'>
           <header>
             <div className='app-title'><div className='app-title-text'>mist</div></div>
             <Menu
@@ -157,9 +166,9 @@ const App: FC = () => {
               pageTable.get(activePage)
             }
           </main>
-        </>
+        </div>
       }
-    </div>
+    </>
   );
 };
 

@@ -17,11 +17,6 @@ textarea {
 /* General */
 
 :root {
-  --bg-color: white;
-  --fg-color: black;
-  --main-color: green;
-  --accent-color: magenta;
-
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
