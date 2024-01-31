@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { getCredential } from '../models/credential.js';
 import { I18n } from '../models/i18n.js';
+import { readLocale } from '../models/settings.js';
 import Menu from './Menu.js';
 import AccountInfo from './AccountInfo.js';
 import LoginPage from './login-page/LoginPage.js';
@@ -33,7 +34,7 @@ import SettingPage from './setting-page/SettingPage.js';
 const mode = 'production';
 
 let initialized = false;
-const i18n = new I18n('ja');
+let i18n;
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
@@ -72,12 +73,16 @@ const App: FC = () => {
     } else {
       updateHandler(undefined);
     }
+
+    const locale = readLocale();
+    i18n = new I18n(locale ?? 'en');
   }, []);
 
   const pageTable = new Map([
     [
       'login',
       <LoginPage
+        i18n={ i18n }
         onUpdateAccount={ x => updateHandler(x) }
         mode={ mode }
       />
@@ -85,6 +90,7 @@ const App: FC = () => {
     [
       'home-timeline',
       <TimelinePage
+        i18n={ i18n }
         account={ account }
         timelineKind='home'
       />
@@ -92,6 +98,7 @@ const App: FC = () => {
     [
       'local-timeline',
       <TimelinePage
+        i18n={ i18n }
         account={ account }
         timelineKind='local'
       />
@@ -99,6 +106,7 @@ const App: FC = () => {
     [
       'social-timeline',
       <TimelinePage
+        i18n={ i18n }
         account={ account }
         timelineKind='social'
       />

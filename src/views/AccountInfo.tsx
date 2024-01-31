@@ -25,7 +25,7 @@ const AccountInfo: FC<Props> = (props) => {
         ログイン先: { props.account.host }
       </div>
       <button onClick={ onClickLogout }>
-        ログアウト
+        { props.i18n.get('logout') }
       </button>
     </div>
   );

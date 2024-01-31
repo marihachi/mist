@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { tryLogin } from '../../models/login.js';
+import type { I18n } from '../../models/i18n.js';
 
 type Props = {
+  i18n: I18n,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
   mode: string,
 };
@@ -26,7 +28,7 @@ const LoginForm: FC<Props> = (props) => {
 
   const onClickLogin = async () => {
     if (hostName.length == 0) {
-      setMessage('ホスト名を入力してください。');
+      setMessage(props.i18n.get('please-input-hostname'));
       return;
     }
     setMessage('');
@@ -34,7 +36,7 @@ const LoginForm: FC<Props> = (props) => {
     cancellationToken = { isCancel: false };
     setHasSession(true);
     setIsCancelEnabled(true);
-    const result = await tryLogin(props.mode, hostName, cancellationToken);
+    const result = await tryLogin(props.mode, hostName, cancellationToken, props.i18n);
     if (result.ok) {
       props.onUpdateAccount(result.account);
     } else {
@@ -51,18 +53,18 @@ const LoginForm: FC<Props> = (props) => {
 
   return (
     <>
-      <h2>Misskeyサーバーにログイン</h2>
+      <h2>{ props.i18n.get('connect-misskey-server') }</h2>
       <input
         type="text"
         className='login-host'
-        placeholder="ホスト名"
+        placeholder={ props.i18n.get('hostname') }
         value={ hostName }
         onChange={ e => setHostName(e.target.value) }
       />
       {
         hasSession
-          ? <button onClick={ onClickCancel } disabled={ !isCancelEnabled }>キャンセル</button>
-          : <button onClick={ onClickLogin }>ログイン</button>
+          ? <button onClick={ onClickCancel } disabled={ !isCancelEnabled }>{ props.i18n.get('do-cancel') }</button>
+          : <button onClick={ onClickLogin }>{ props.i18n.get('do-login') }</button>
       }
       {
         message != null &&

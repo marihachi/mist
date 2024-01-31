@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import { api } from '../../models/misskey.js';
 import { sleep } from '../../models/util.js';
+import type { I18n } from '../../models/i18n.js';
 
 type Props = {
+  i18n: I18n,
   account: { host: string, accessToken: string } | undefined,
   timelineKind: string,
 };
@@ -85,7 +87,7 @@ const Timeline: FC<Props> = (props) => {
       return (
         <>
           <div className='note-header'>
-            { note.user.name }がリノート
+            { props.i18n.get('was-renote-message', [note.user.name]) }
           </div>
           <div className='note-body'>
             @{ note.renote.user.username }: { note.renote.text }
