@@ -30,5 +30,6 @@ jobs:
     - name: Save artifacts
       uses: actions/upload-artifact@v4
       with:
+        name: artifacts_node${{ matrix.node-version }}
         path: |
           dist
