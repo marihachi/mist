@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import type { FC } from 'react';
 import { getCredential } from '../models/credential.js';
 import { I18n } from '../models/i18n.js';
@@ -12,11 +12,6 @@ import TimelinePage from './timeline-page/TimelinePage.js';
 import NotificationPage from './notification-page/NotificationPage.js';
 import SettingPage from './setting-page/SettingPage.js';
 
-const mode = 'production';
-
-let initialized = false;
-let i18n = new I18n('en');
-
 export function makeThemeStyle(config: ThemeConfig): string | undefined {
   let theme: ThemeParams;
   if (config.kind == 'preset') {
@@ -26,17 +21,21 @@ export function makeThemeStyle(config: ThemeConfig): string | undefined {
   } else {
     theme = config;
   }
-  return `
-    :root {
-      --bg-color: ${ theme.bg };
-      --fg-color: ${ theme.fg };
-      --main-color: ${ theme.main };
-      --accent-color: ${ theme.accent };
-    }
-  `;
+  return [
+    ':root {',
+    `--bg-color: ${ theme.bg };`,
+    `--fg-color: ${ theme.fg };`,
+    `--main-color: ${ theme.main };`,
+    `--accent-color: ${ theme.accent };`,
+    '}',
+  ].join(' ');
 }
 
 const App: FC = () => {
+  const initialized = useRef<boolean>(false);
+  const i18n = useRef<I18n>(new I18n('en'));
+
+  const [mode, setMode] = useState<string>('production');
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
   const [pageSet, setPageSet] = useState<string[]>(['setting']);
   const [activePage, setActivePage] = useState<string>();
@@ -61,13 +60,13 @@ const App: FC = () => {
   }
 
   useEffect(() => {
-    if (initialized) return;
-    initialized = true;
+    if (initialized.current) return;
+    initialized.current = true;
 
     // load locale
     const locale = readLocale() ?? 'en';
     if (locale != 'en') {
-      i18n = new I18n(locale);
+      i18n.current = new I18n(locale);
     }
 
     // load theme

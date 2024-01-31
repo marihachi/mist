@@ -1,9 +1,9 @@
 import React from 'react';
-import type { FC } from 'react';
+import type { FC, MutableRefObject } from 'react';
 import type { I18n } from '../models/i18n.js';
 
 type Props = {
-  i18n: I18n,
+  i18n: MutableRefObject<I18n>,
   pageSet: string[],
   activePage: string | undefined,
 };
@@ -27,7 +27,7 @@ const Menu: FC<Props> = (props) => {
             <div
               className={ props.activePage == page ? 'menu-button active' : 'menu-button' }
             >
-              { props.i18n.get(buttonNameTable.get(page) ?? '') }
+              { props.i18n.current.get(buttonNameTable.get(page) ?? '') }
             </div>
           )
         }

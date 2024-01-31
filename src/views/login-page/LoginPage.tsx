@@ -1,10 +1,10 @@
 import React from 'react';
-import type { FC } from 'react';
+import type { FC, MutableRefObject } from 'react';
 import type { I18n } from '../../models/i18n.js';
 import LoginForm from './LoginForm.js';
 
 type Props = {
-  i18n: I18n,
+  i18n: MutableRefObject<I18n>,
   onUpdateAccount: (account: { host: string, accessToken: string } | undefined) => void,
   mode: string,
 };
