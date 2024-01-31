@@ -34,12 +34,13 @@ import SettingPage from './setting-page/SettingPage.js';
 const mode = 'production';
 
 let initialized = false;
-let i18n: I18n | undefined;
+let i18n = new I18n('en');
 
 const App: FC = () => {
   const [account, setAccount] = useState<{ host: string, accessToken: string }>();
   const [pageSet, setPageSet] = useState<string[]>(['setting']);
   const [activePage, setActivePage] = useState<string>();
+  const [isReady, setIsReady] = useState<boolean>(false);
 
   function updateHandler(newAccount: any) {
     // update account
@@ -62,6 +63,12 @@ const App: FC = () => {
     if (initialized) return;
     initialized = true;
 
+    // load locale
+    const locale = readLocale() ?? 'en';
+    if (locale != 'en') {
+      i18n = new I18n(locale);
+    }
+
     // load credential
     const credential = getCredential(mode, 0);
     if (credential != null) {
@@ -73,9 +80,7 @@ const App: FC = () => {
     } else {
       updateHandler(undefined);
     }
-
-    const locale = readLocale();
-    i18n = new I18n(locale ?? 'en');
+    setIsReady(true);
   }, []);
 
   const pageTable = new Map([
@@ -125,29 +130,34 @@ const App: FC = () => {
 
   return (
     <div className='app'>
-      <header>
-        <div className='app-title'><div className='app-title-text'>mist</div></div>
-        <Menu
-          i18n={ i18n }
-          pageSet={ pageSet }
-          activePage={ activePage }
-        />
-        {
-          account != null &&
-          <AccountInfo
-            account={ account }
-            onUpdateAccount={ x => updateHandler(x) }
-            mode={ mode }
-          />
-        }
-      </header>
-      <div className='horizontal-divider' />
-      <main>
-        {
-          activePage != null &&
-          pageTable.get(activePage)
-        }
-      </main>
+      {
+        isReady &&
+        <>
+          <header>
+            <div className='app-title'><div className='app-title-text'>mist</div></div>
+            <Menu
+              i18n={ i18n }
+              pageSet={ pageSet }
+              activePage={ activePage }
+            />
+            {
+              account != null &&
+              <AccountInfo
+                account={ account }
+                onUpdateAccount={ x => updateHandler(x) }
+                mode={ mode }
+              />
+            }
+          </header>
+          <div className='horizontal-divider' />
+          <main>
+            {
+              activePage != null &&
+              pageTable.get(activePage)
+            }
+          </main>
+        </>
+      }
     </div>
   );
 };
