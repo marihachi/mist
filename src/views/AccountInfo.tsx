@@ -24,10 +24,10 @@ const AccountInfo: FC<Props> = (props) => {
   return (
     <div className='account-info'>
       <div className='server-name-label'>
-        ログイン先: { props.account.host }
+        { props.i18n.get('server') }: { props.account.host }
       </div>
       <button onClick={ onClickLogout }>
-        { props.i18n.get('logout') }
+        { props.i18n.get('do-logout') }
       </button>
     </div>
   );
