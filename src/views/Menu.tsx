@@ -6,6 +6,7 @@ type Props = {
   i18n: MutableRefObject<I18n>,
   pageSet: string[],
   activePage: string | undefined,
+  onChangeActivePage: (page: string) => void,
 };
 
 // ページ名とi18nキー
@@ -26,6 +27,7 @@ const Menu: FC<Props> = (props) => {
           props.pageSet.map(page =>
             <div
               className={ props.activePage == page ? 'menu-button active' : 'menu-button' }
+              onClick={ () => props.onChangeActivePage(page) }
             >
               { props.i18n.current.get(buttonNameTable.get(page) ?? '') }
             </div>
