@@ -22,18 +22,18 @@ const buttonNameTable = new Map<string, string>([
 const Menu: FC<Props> = (props) => {
   return (
     <>
-      <div className='menu'>
+      <nav className='menu'>
         {
           props.pageSet.map(page =>
-            <div
+            <a
               className={ props.activePage == page ? 'menu-button active' : 'menu-button' }
               onClick={ () => props.onChangeActivePage(page) }
             >
               { props.i18n.current.get(buttonNameTable.get(page) ?? '') }
-            </div>
+            </a>
           )
         }
-      </div>
+      </nav>
     </>
   );
 };
