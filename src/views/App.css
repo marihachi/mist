@@ -76,6 +76,10 @@ header {
   margin: 0 1rem;
 }
 
+.menu-button {
+  cursor: pointer;
+}
+
 .menu-button:not(:last-child) {
   margin-right: 1rem;
 }
