@@ -88,6 +88,10 @@ header {
   margin-right: 1rem;
 }
 
+.menu-button.active {
+  border-bottom: 2px solid var(--main-color);
+}
+
 /* Header right-side */
 
 .account-info {
