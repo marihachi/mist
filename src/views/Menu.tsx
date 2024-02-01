@@ -26,6 +26,7 @@ const Menu: FC<Props> = (props) => {
         {
           props.pageSet.map(page =>
             <a
+              key={ page }
               className={ props.activePage == page ? 'menu-button active' : 'menu-button' }
               onClick={ () => props.onChangeActivePage(page) }
             >
