@@ -8,6 +8,7 @@ type Props = {
 const SettingPage: FC<Props> = (props) => {
   return (
     <>
+      <p>Not implemented</p>
     </>
   );
 };
