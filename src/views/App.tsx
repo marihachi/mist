@@ -102,6 +102,7 @@ const App: FC = () => {
     [
       'home-timeline',
       <TimelinePage
+        key='home-timeline'
         i18n={ i18n }
         account={ account }
         timelineKind='home'
@@ -110,6 +111,7 @@ const App: FC = () => {
     [
       'local-timeline',
       <TimelinePage
+        key='local-timeline'
         i18n={ i18n }
         account={ account }
         timelineKind='local'
@@ -118,6 +120,7 @@ const App: FC = () => {
     [
       'social-timeline',
       <TimelinePage
+        key='social-timeline'
         i18n={ i18n }
         account={ account }
         timelineKind='social'
