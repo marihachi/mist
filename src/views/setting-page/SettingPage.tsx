@@ -55,7 +55,7 @@ const SettingPage: FC<Props> = (props) => {
         <select name="theme" id="theme-select" value={ themeSelect } onChange={ e => setThemeSelect(e.target.value) }>
           {
             themePresets.map(preset =>
-              <option value={ preset.id }>{ preset.name }</option>
+              <option key={ preset.id } value={ preset.id }>{ preset.name }</option>
             )
           }
           <option value="custom" disabled>Custom</option>
