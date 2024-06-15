@@ -4,7 +4,7 @@ A Misskey client app of one file.
 The mist allows access to a Misskey server with only one HTML file in your machine.  
 If necessary, it can be delivered by a web server.
 
-![capture](https://raw.githubusercontent.com/marihachi/mist/285276d6d3a66f758e78c6863000c77075ad923f/capture.png)
+![capture](https://raw.githubusercontent.com/marihachi/mist/ad96181d7a8510d42be3c07694b84e26edc25789/capture.png)
 
 ## Download
 Release Page:  
